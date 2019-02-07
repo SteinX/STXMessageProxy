@@ -1,0 +1,16 @@
+PODS:
+  - STXMessageProxy (0.1.0)
+
+DEPENDENCIES:
+  - STXMessageProxy (from `../`)
+
+EXTERNAL SOURCES:
+  STXMessageProxy:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  STXMessageProxy: 1dd021e58be970ec15184d27f28380b935748a75
+
+PODFILE CHECKSUM: 0eaea0025512a6f6b0bd9752b4176d0cd6bfa43e
+
+COCOAPODS: 1.6.0

@@ -18,7 +18,9 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+  STXMessageProxy is an abstract tool which can help you to change the ordinary method calling behavior to the one of the following behavior:
+  Broadcasting & Interception. This tool can be helpful when you'd like to keep mutiple members to be informed from one source (delegate), or
+  override certain behavior of the original one without changing the source code by just intercepting the call.
                        DESC
 
   s.homepage         = 'https://github.com/SteinX/STXMessageProxy'
@@ -26,7 +28,6 @@ TODO: Add long description of the pod here.
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'SteinX' => 'steinxia@gmail.com' }
   s.source           = { :git => 'https://github.com/SteinX/STXMessageProxy.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
 

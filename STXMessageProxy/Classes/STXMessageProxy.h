@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param source The source is the object to which the method call is originally to be sent.
  @return instance
  */
-- (instancetype)initWithSource:(id<NSObject>)source NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithSource:(id<NSObject>)source;
 
 @end
 

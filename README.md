@@ -9,7 +9,30 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-## Requirements
+## Running Mode
+1. interception mode
+![interception mode](Media/interception_mode.jpg)
+
+2. Broadcasting mode
+![broadcasting mode](Media/broadcasting_mode.jpg)
+
+## Usage
+```objc
+// Initialize from the source (the method call will be invoked on this object)
+STXScrollDelegateProxy *proxy = [[STXScrollDelegateProxy alloc] initWithSource:self];
+
+// If you have any selectors that you'd like to intercept, set the interceptor
+proxy.interceptor = self.interceptor;
+
+// If you have any broadcasting selectors, you can consider adding some subscribers to be notified
+[proxy addBroadcastSubscriber:subscriber];
+
+// Define the proxying policy for selector
+[proxy setProxyingSelector:@selector(scrollViewWillBeginDragging:)
+            withRunningMode:mode];
+```
+
+For a more concrete usage case, please refer to the Demo project.
 
 ## Installation
 

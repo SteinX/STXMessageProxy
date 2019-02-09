@@ -130,7 +130,6 @@
 #pragma mark - STXDeallocNotifierDelegate
 - (void)stx_objectDidDealloc:(NSUUID *)identifier {
     [self.broadcastSubscribers removeObjectForKey:identifier];
-    NSLog(@"[DEALLOC]Subscriber count %zd", self.broadcastSubscribers.count);
 }
 
 #pragma mark - Private

@@ -46,11 +46,14 @@
 
 #pragma mark - Proxying
 - (BOOL)respondsToSelector:(SEL)aSelector {
-    if ([self.class respondsToSelector:aSelector]) {
-        return YES;
+    __auto_type runningMode = [self runningModeForSelector:aSelector];
+    __auto_type canSourceRespond = [self.source respondsToSelector:aSelector];
+    
+    if (runningMode != STXMessageProxyRunningModeInterception) {
+        return canSourceRespond;
     }
     
-    return [self.source respondsToSelector:aSelector];
+    return [self.interceptor respondsToSelector:aSelector] ?: canSourceRespond;
 }
 
 - (BOOL)conformsToProtocol:(Protocol *)aProtocol {

@@ -136,8 +136,6 @@
 }
 
 - (void)testOnBroadcastingSubscribersNotGetRetained {
-    __auto_type expectation = [self expectationWithDescription:@"Subscribers should not be retained"];
-    
     __auto_type subscriber1 = [STXTestMainDelegateImpl new];
     __auto_type subscriber2 = [STXTestMainDelegateInterceptor new];
     
@@ -146,14 +144,8 @@
     
     subscriber1 = nil;
     subscriber2 = nil;
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (self.proxy.isAllSubscriberGone) {
-            [expectation fulfill];
-        }
-    });
-    
-    [self waitForExpectations:@[expectation] timeout:1.f];
+
+    XCTAssert(self.proxy.isAllSubscriberGone, @"Subscribers should not be retained");
 }
 
 @end

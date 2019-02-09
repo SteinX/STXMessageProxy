@@ -24,6 +24,9 @@
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		9012671AEBE685A2D2BC64D2 /* Pods_STXMessageProxy_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2E8A7396C8C6AECA0AC33BC /* Pods_STXMessageProxy_Tests.framework */; };
 		9A135498220E7F150006CCA5 /* STXMessageProxy+TestOnly.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A135497220E7F150006CCA5 /* STXMessageProxy+TestOnly.m */; };
+		9A24A9FC220EF06D00AB460C /* STXScrollDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A24A9FB220EF06D00AB460C /* STXScrollDelegateProxy.m */; };
+		9A24A9FF220EF18600AB460C /* STXScrollDelegateInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A24A9FE220EF18600AB460C /* STXScrollDelegateInterceptor.m */; };
+		9A8D8783220F021E0085246C /* STXScrollDelegateSubscriber.m in Sources */ = {isa = PBXBuildFile; fileRef = 9A8D8782220F021E0085246C /* STXScrollDelegateSubscriber.m */; };
 		9AA6AB52220DC6C800DED586 /* STXMessageProxyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA6AB51220DC6C800DED586 /* STXMessageProxyTests.m */; };
 		9AA6AB5A220DC99000DED586 /* STXProxyingTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA6AB59220DC99000DED586 /* STXProxyingTestMain.m */; };
 		9AA6AB5D220DC9B000DED586 /* STXTestMainDelegateProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AA6AB5C220DC9B000DED586 /* STXTestMainDelegateProxy.m */; };
@@ -70,6 +73,12 @@
 		9A1354A1220EAB660006CCA5 /* STXDeallocNotifierTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STXDeallocNotifierTests.m; sourceTree = "<group>"; };
 		9A1354A3220EABCE0006CCA5 /* STXDeallocNotifierTestDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STXDeallocNotifierTestDelegate.h; sourceTree = "<group>"; };
 		9A1354A4220EABCE0006CCA5 /* STXDeallocNotifierTestDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STXDeallocNotifierTestDelegate.m; sourceTree = "<group>"; };
+		9A24A9FA220EF06D00AB460C /* STXScrollDelegateProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STXScrollDelegateProxy.h; sourceTree = "<group>"; };
+		9A24A9FB220EF06D00AB460C /* STXScrollDelegateProxy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STXScrollDelegateProxy.m; sourceTree = "<group>"; };
+		9A24A9FD220EF18600AB460C /* STXScrollDelegateInterceptor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STXScrollDelegateInterceptor.h; sourceTree = "<group>"; };
+		9A24A9FE220EF18600AB460C /* STXScrollDelegateInterceptor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STXScrollDelegateInterceptor.m; sourceTree = "<group>"; };
+		9A8D8781220F021E0085246C /* STXScrollDelegateSubscriber.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STXScrollDelegateSubscriber.h; sourceTree = "<group>"; };
+		9A8D8782220F021E0085246C /* STXScrollDelegateSubscriber.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STXScrollDelegateSubscriber.m; sourceTree = "<group>"; };
 		9AA6AB51220DC6C800DED586 /* STXMessageProxyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = STXMessageProxyTests.m; sourceTree = "<group>"; };
 		9AA6AB58220DC99000DED586 /* STXProxyingTestMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = STXProxyingTestMain.h; sourceTree = "<group>"; };
 		9AA6AB59220DC99000DED586 /* STXProxyingTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STXProxyingTestMain.m; sourceTree = "<group>"; };
@@ -169,6 +178,12 @@
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
+				9A24A9FA220EF06D00AB460C /* STXScrollDelegateProxy.h */,
+				9A24A9FB220EF06D00AB460C /* STXScrollDelegateProxy.m */,
+				9A24A9FD220EF18600AB460C /* STXScrollDelegateInterceptor.h */,
+				9A24A9FE220EF18600AB460C /* STXScrollDelegateInterceptor.m */,
+				9A8D8781220F021E0085246C /* STXScrollDelegateSubscriber.h */,
+				9A8D8782220F021E0085246C /* STXScrollDelegateSubscriber.m */,
 			);
 			name = "Example for STXMessageProxy";
 			path = STXMessageProxy;
@@ -411,7 +426,10 @@
 			files = (
 				6003F59E195388D20070C39A /* STXAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* STXViewController.m in Sources */,
+				9A24A9FC220EF06D00AB460C /* STXScrollDelegateProxy.m in Sources */,
+				9A8D8783220F021E0085246C /* STXScrollDelegateSubscriber.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				9A24A9FF220EF18600AB460C /* STXScrollDelegateInterceptor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

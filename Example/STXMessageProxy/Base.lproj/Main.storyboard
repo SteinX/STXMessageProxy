@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="whP-gf-Uak">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="whP-gf-Uak">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,8 +20,51 @@
                     <view key="view" contentMode="scaleToFill" id="TpU-gO-2f1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BAb-Ps-O2b">
+                                <rect key="frame" x="163" y="58" width="51" height="31"/>
+                                <connections>
+                                    <action selector="modeSwitchChangedValue:" destination="whP-gf-Uak" eventType="valueChanged" id="yAO-Bn-aeo"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Broadcast" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wBL-sZ-5ge">
+                                <rect key="frame" x="70" y="63" width="78" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interception" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KqK-wi-qLI">
+                                <rect key="frame" x="227" y="63" width="92" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="oHW-vE-FOe">
+                                <rect key="frame" x="0.0" y="109" width="375" height="558"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="whP-gf-Uak" id="qK4-pJ-gRy"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="KqK-wi-qLI" firstAttribute="leading" secondItem="BAb-Ps-O2b" secondAttribute="trailing" constant="15" id="7Yr-Tr-Tlk"/>
+                            <constraint firstItem="Mvr-aV-6Um" firstAttribute="top" secondItem="oHW-vE-FOe" secondAttribute="bottom" id="CHH-2q-2LN"/>
+                            <constraint firstItem="wBL-sZ-5ge" firstAttribute="centerY" secondItem="BAb-Ps-O2b" secondAttribute="centerY" id="Cam-8p-fxT"/>
+                            <constraint firstItem="oHW-vE-FOe" firstAttribute="centerX" secondItem="TpU-gO-2f1" secondAttribute="centerX" id="Q5C-fU-25R"/>
+                            <constraint firstItem="BAb-Ps-O2b" firstAttribute="centerX" secondItem="TpU-gO-2f1" secondAttribute="centerX" id="VzC-Rc-KWJ"/>
+                            <constraint firstItem="BAb-Ps-O2b" firstAttribute="top" secondItem="uEw-UM-LJ8" secondAttribute="bottom" constant="38" id="hNm-Jh-6OU"/>
+                            <constraint firstItem="KqK-wi-qLI" firstAttribute="centerY" secondItem="BAb-Ps-O2b" secondAttribute="centerY" id="nB9-jZ-7uP"/>
+                            <constraint firstItem="oHW-vE-FOe" firstAttribute="top" secondItem="BAb-Ps-O2b" secondAttribute="bottom" constant="20" id="nsh-lh-28v"/>
+                            <constraint firstItem="BAb-Ps-O2b" firstAttribute="leading" secondItem="wBL-sZ-5ge" secondAttribute="trailing" constant="15" id="ojG-78-SFY"/>
+                            <constraint firstItem="oHW-vE-FOe" firstAttribute="leading" secondItem="TpU-gO-2f1" secondAttribute="leading" id="vZ8-g0-Y0D"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="modeSwitch" destination="BAb-Ps-O2b" id="uJP-MY-7BY"/>
+                        <outlet property="tableView" destination="oHW-vE-FOe" id="me2-XA-IDM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tc2-Qw-aMS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

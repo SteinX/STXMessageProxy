@@ -142,10 +142,37 @@
     [self.proxy addBroadcastSubscriber:subscriber1];
     [self.proxy addBroadcastSubscriber:subscriber2];
     
+    __auto_type expect = [self expectationWithDescription:@"Subscription dealloc test"];
+    
     subscriber1 = nil;
     subscriber2 = nil;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        XCTAssert(self.proxy.isAllSubscriberGone, @"Subscribers should not be retained");
+        [expect fulfill];
+    });
+    
+    [self waitForExpectations:@[expect] timeout:1.0];
+}
 
-    XCTAssert(self.proxy.isAllSubscriberGone, @"Subscribers should not be retained");
+- (void)testOnPrimitiveReturnTypeFromProxyingMethod {
+    [self.proxy setProxyingSelector:@selector(call_delegationWithStructReturnValue)
+                    withRunningMode:STXMessageProxyRunningModeBroadcasting];
+    
+    __auto_type subscriber1 = [STXTestMainDelegateImpl new];
+    __auto_type subscriber2 = [STXTestMainDelegateInterceptor new];
+    
+    [self.proxy addBroadcastSubscriber:subscriber1];
+    [self.proxy addBroadcastSubscriber:subscriber2];
+    
+    __auto_type returnVal = [self.mainObj call_delegationWithStructReturnVal];
+    
+    XCTAssert(CGRectEqualToRect(returnVal, CGRectMake(1, 1, 10, 10)),
+              @"Return value is supposed to be returned from the source, since no interception will happen in the broadcasting mode");
+    XCTAssert(CGRectEqualToRect(subscriber1.evaluationStructValue, CGRectMake(1, 1, 10, 10)),
+              @"Evaluation value is supposed to be CGRectMake(1, 1, 10, 10) for subscriber1, as it's be invoked from the broadcasting");
+    XCTAssert(CGRectEqualToRect(subscriber2.evaluationStructValue, CGRectNull),
+              @"Evaluation value is supposed to be CGRectNull for subscriber2, as it's be invoked from the broadcasting");
 }
 
 @end

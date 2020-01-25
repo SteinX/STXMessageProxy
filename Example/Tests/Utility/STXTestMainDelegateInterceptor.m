@@ -21,4 +21,9 @@
     return 20;
 }
 
+- (CGRect)call_delegationWithStructReturnValue {
+    _evaluationStructValue = CGRectNull;
+    return _evaluationStructValue;
+}
+
 @end

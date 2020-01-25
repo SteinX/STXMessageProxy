@@ -18,4 +18,8 @@
     return [self.delegate call_delegationWithReturnValue];
 }
 
+- (CGRect)call_delegationWithStructReturnVal {
+    return [self.delegate call_delegationWithStructReturnValue];
+}
+
 @end

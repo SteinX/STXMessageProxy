@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'STXMessageProxy'
-  s.version          = '0.1.0'
+  s.version          = '0.1.1'
   s.summary          = 'A proxy to control the distribution of the message delivery of the objc based on the message forwarding mechanism.'
 
 # This description is used to generate tags and improve search results.

@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface STXTestMainDelegateInterceptor : NSObject <STXProxyingTestMainDelegate>
 
 @property (nonatomic, readonly, assign) NSInteger evaluationValue;
+@property (nonatomic, readonly, assign) CGRect evaluationStructValue;
 
 @end
 

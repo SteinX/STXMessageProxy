@@ -8,6 +8,20 @@
 #import "STXMessageProxy.h"
 #import "NSObject+DeallocNotifiy.h"
 
+NS_INLINE BOOL CStringEquals(const char *str1, const char *str2) {
+    return strcmp(str1, str2) == 0;
+}
+
+NS_INLINE BOOL isObjectType(const char *typeEncoding) {
+    return CStringEquals(typeEncoding, "@") // object
+    || CStringEquals(typeEncoding, "@?") // block
+    || CStringEquals(typeEncoding, "#"); // metaclass
+}
+
+NS_INLINE BOOL isVoidReturn(const char *typeEncoding) {
+    return CStringEquals(typeEncoding, "v");
+}
+
 @interface STXMessageProxy () <STXDeallocNotifierDelegate>
 
 @property (nonatomic, weak) id<NSObject> source;
@@ -98,9 +112,26 @@
     // In broadcasting mode, return value of the invocation should be the one returned from the source,
     // and the source should be informed at first
     void *returnVal = NULL;
+    BOOL needsFree = NO;
+    
     if ([self.source respondsToSelector:targetSEL]) {
         [invocation invokeWithTarget:self.source];
-        [invocation getReturnValue:&returnVal];
+        
+        __auto_type retType = invocation.methodSignature.methodReturnType;
+        
+        if (!isVoidReturn(retType)) {
+            if (isObjectType(retType)) {
+                [invocation getReturnValue:returnVal];
+            } else {
+                NSUInteger retValueSize;
+                NSGetSizeAndAlignment(retType, &retValueSize, NULL);
+                
+                returnVal = malloc(retValueSize);
+                [invocation getReturnValue:returnVal];
+                
+                needsFree = YES;
+            }
+        }
     }
     
     __auto_type subscriberEnumerator = self.broadcastSubscribers.objectEnumerator;
@@ -114,13 +145,18 @@
         subscriber = [subscriberEnumerator nextObject];
     }
     
-    if (returnVal) {
-        [invocation setReturnValue:&returnVal];
+    if (returnVal != NULL) {
+        [invocation setReturnValue:returnVal];
+        
+        if (needsFree) {
+            free(returnVal);
+        }
     }
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
-    __auto_type signature = [[self.source class] methodSignatureForSelector:sel] ?: [NSMethodSignature signatureWithObjCTypes:"@^v^c"];
+    __auto_type sourceSignature = [NSStringFromSelector(sel) hasPrefix:@"+"] ? [[self.source class] methodSignatureForSelector:sel] : [(id)self.source methodSignatureForSelector:sel];
+    __auto_type signature = sourceSignature != nil ? sourceSignature : [NSMethodSignature signatureWithObjCTypes:"@^v^c"];
     __auto_type runningMode = [self runningModeForSelector:sel];
     
     if (runningMode != STXMessageProxyRunningModeInterception) {

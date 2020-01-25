@@ -20,4 +20,9 @@
     return 10;
 }
 
+- (CGRect)call_delegationWithStructReturnValue {
+    _evaluationStructValue = CGRectMake(1, 1, 10, 10);
+    return _evaluationStructValue;
+}
+
 @end

@@ -6,7 +6,7 @@
 //  Copyright © 2019 SteinX. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import UIKit;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)call_delegationWithParam:(id)parameter;
 - (NSInteger)call_delegationWithReturnValue;
+- (CGRect)call_delegationWithStructReturnValue;
 
 @end
 
@@ -23,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)call_delegationWithParam:(id)parameter;
 - (NSInteger)call_delegationWithReturnVal;
+- (CGRect)call_delegationWithStructReturnVal;
 
 @end
 

@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly, assign) NSInteger evaluationValue;
 @property (nonatomic, readonly, assign) CGRect evaluationStructValue;
+@property (nonatomic, readonly) NSNumber *evaluationObjValue;
 
 @end
 

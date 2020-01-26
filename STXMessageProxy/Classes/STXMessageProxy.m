@@ -22,6 +22,13 @@ NS_INLINE BOOL isVoidReturn(const char *typeEncoding) {
     return CStringEquals(typeEncoding, "v");
 }
 
+NS_INLINE NSMethodSignature *methodSignature(id object, SEL sel) {
+    __auto_type signature = [NSStringFromSelector(sel) hasPrefix:@"+"] ?
+    [[object class] methodSignatureForSelector:sel] : [object methodSignatureForSelector:sel];
+    
+    return signature != nil ? signature : [NSMethodSignature signatureWithObjCTypes:"@^v^c"];
+}
+
 @interface STXMessageProxy () <STXDeallocNotifierDelegate>
 
 @property (nonatomic, weak) id<NSObject> source;
@@ -111,8 +118,8 @@ NS_INLINE BOOL isVoidReturn(const char *typeEncoding) {
     
     // In broadcasting mode, return value of the invocation should be the one returned from the source,
     // and the source should be informed at first
-    void *returnVal = NULL;
-    BOOL needsFree = NO;
+    void *returnValBuffer = NULL;
+    id returnObj = nil;
     
     if ([self.source respondsToSelector:targetSEL]) {
         [invocation invokeWithTarget:self.source];
@@ -121,15 +128,10 @@ NS_INLINE BOOL isVoidReturn(const char *typeEncoding) {
         
         if (!isVoidReturn(retType)) {
             if (isObjectType(retType)) {
-                [invocation getReturnValue:returnVal];
+                [invocation getReturnValue:&returnObj];
             } else {
-                NSUInteger retValueSize;
-                NSGetSizeAndAlignment(retType, &retValueSize, NULL);
-                
-                returnVal = malloc(retValueSize);
-                [invocation getReturnValue:returnVal];
-                
-                needsFree = YES;
+                returnValBuffer = malloc(invocation.methodSignature.methodReturnLength);
+                [invocation getReturnValue:returnValBuffer];
             }
         }
     }
@@ -137,7 +139,7 @@ NS_INLINE BOOL isVoidReturn(const char *typeEncoding) {
     __auto_type subscriberEnumerator = self.broadcastSubscribers.objectEnumerator;
     id subscriber = subscriberEnumerator.nextObject;
     
-    while (subscriber) {
+    while (subscriber != nil) {
         if ([subscriber respondsToSelector:targetSEL]) {
             [invocation invokeWithTarget:subscriber];
         }
@@ -145,25 +147,25 @@ NS_INLINE BOOL isVoidReturn(const char *typeEncoding) {
         subscriber = [subscriberEnumerator nextObject];
     }
     
-    if (returnVal != NULL) {
-        [invocation setReturnValue:returnVal];
-        
-        if (needsFree) {
-            free(returnVal);
-        }
+    if (returnObj != nil) {
+        [invocation setReturnValue:&returnObj];
+    }
+    else if (returnValBuffer != NULL) {
+        [invocation setReturnValue:returnValBuffer];
+        free(returnValBuffer);
     }
 }
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)sel {
-    __auto_type sourceSignature = [NSStringFromSelector(sel) hasPrefix:@"+"] ? [[self.source class] methodSignatureForSelector:sel] : [(id)self.source methodSignatureForSelector:sel];
-    __auto_type signature = sourceSignature != nil ? sourceSignature : [NSMethodSignature signatureWithObjCTypes:"@^v^c"];
     __auto_type runningMode = [self runningModeForSelector:sel];
     
-    if (runningMode != STXMessageProxyRunningModeInterception) {
-        return signature;
+    switch (runningMode) {
+        case STXMessageProxyRunningModeInterception:
+            return methodSignature(self.interceptor, sel);
+        case STXMessageProxyRunningModeBroadcasting:
+        default:
+            return methodSignature(self.source, sel);
     }
-    
-    return [[self.interceptor class] methodSignatureForSelector:sel] ?: signature;
 }
 
 #pragma mark - STXDeallocNotifierDelegate

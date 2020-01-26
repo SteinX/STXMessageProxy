@@ -10,11 +10,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NSString * __nullable(^STXObjectBlock)(NSNumber *);
+typedef void(^STXStructBlock)(CGRect);
+
 @protocol STXProxyingTestMainDelegate <NSObject>
 
 - (void)call_delegationWithParam:(id)parameter;
 - (NSInteger)call_delegationWithReturnValue;
 - (CGRect)call_delegationWithStructReturnValue;
+
+- (NSNumber *)call_delegationWithObjectTypeReturnValue;
+- (STXObjectBlock)call_delegationWithObjectBlockReturnValue;
 
 @end
 
@@ -25,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)call_delegationWithParam:(id)parameter;
 - (NSInteger)call_delegationWithReturnVal;
 - (CGRect)call_delegationWithStructReturnVal;
+- (NSNumber *)call_delegationWithObjectReturnVal;
+- (STXObjectBlock)call_delegationWithObjectBlockReturnVal;
 
 @end
 

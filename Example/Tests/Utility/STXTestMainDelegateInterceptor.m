@@ -26,4 +26,17 @@
     return _evaluationStructValue;
 }
 
+- (NSNumber *)call_delegationWithObjectTypeReturnValue {
+    _evaluationObjValue = @(99999999.99999);
+    return _evaluationObjValue;
+}
+
+- (STXObjectBlock)call_delegationWithObjectBlockReturnValue {
+    return ^(NSNumber *number) {
+        __auto_type str = [NSString stringWithFormat:@"[Intercepted] Number passed: %@", number];
+        NSLog(@"%@", str);
+        return str;
+    };
+}
+
 @end

@@ -22,4 +22,12 @@
     return [self.delegate call_delegationWithStructReturnValue];
 }
 
+- (NSNumber *)call_delegationWithObjectReturnVal {
+    return [self.delegate call_delegationWithObjectTypeReturnValue];
+}
+
+- (STXObjectBlock)call_delegationWithObjectBlockReturnVal {
+    return [self.delegate call_delegationWithObjectBlockReturnValue];
+}
+
 @end

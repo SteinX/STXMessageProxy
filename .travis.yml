@@ -2,7 +2,7 @@
 # * https://www.objc.io/issues/6-build-tools/travis-ci/
 # * https://github.com/supermarin/xcpretty#usage
 
-osx_image: xcode10.1
+osx_image: xcode11.3
 language: objective-c
 # cache: cocoapods
 # podfile: Example/Podfile
@@ -14,7 +14,7 @@ before_install:
 - xcrun simctl list
 
 before_script:
-- set -o pipefail && xcodebuild test -enableCodeCoverage YES -workspace Example/STXMessageProxy.xcworkspace -scheme STXMessageProxy-Example -sdk iphonesimulator12.1 ONLY_ACTIVE_ARCH=NO | xcpretty
+- set -o pipefail && xcodebuild test -enableCodeCoverage YES -destination 'platform=iOS Simulator,name=iPhone 11,OS=13.3' -workspace Example/STXMessageProxy.xcworkspace -scheme STXMessageProxy-Example -sdk iphonesimulator13.2 ONLY_ACTIVE_ARCH=NO | xcpretty
 
 script:
 - pod lib lint

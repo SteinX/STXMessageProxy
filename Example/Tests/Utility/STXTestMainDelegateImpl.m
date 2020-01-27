@@ -12,7 +12,10 @@
 
 - (void)call_delegationWithParam:(id)parameter {
     _evaluationValue = 2 + [parameter integerValue];
-    NSLog(@"ORG IMPL, Evalation is supposed to be %zd", _evaluationValue);
+    
+    if (!_silent) {
+        NSLog(@"ORG IMPL, Evalation is supposed to be %zd", _evaluationValue);
+    }
 }
 
 - (NSInteger)call_delegationWithReturnValue {

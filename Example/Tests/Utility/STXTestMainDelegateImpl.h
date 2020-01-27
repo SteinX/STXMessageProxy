@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly, assign) CGRect evaluationStructValue;
 @property (nonatomic, readonly) NSNumber *evaluationObjValue;
 
+@property (nonatomic, assign) BOOL silent;
+
 @end
 
 NS_ASSUME_NONNULL_END

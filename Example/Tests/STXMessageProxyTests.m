@@ -136,23 +136,19 @@
 }
 
 - (void)testOnBroadcastingSubscribersNotGetRetained {
+    __auto_type source = [STXTestMainDelegateImpl new];
+    __auto_type proxy = [[STXMessageProxy alloc] initWithSource:source];
+    
     __auto_type subscriber1 = [STXTestMainDelegateImpl new];
     __auto_type subscriber2 = [STXTestMainDelegateInterceptor new];
     
     [self.proxy addBroadcastSubscriber:subscriber1];
     [self.proxy addBroadcastSubscriber:subscriber2];
     
-    __auto_type expect = [self expectationWithDescription:@"Subscription dealloc test"];
-    
     subscriber1 = nil;
     subscriber2 = nil;
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        XCTAssert(self.proxy.isAllSubscriberGone, @"Subscribers should not be retained");
-        [expect fulfill];
-    });
-    
-    [self waitForExpectations:@[expect] timeout:1.0];
+    XCTAssert(proxy.isAllSubscriberGone, @"Subscribers should not be retained");
 }
 
 - (void)testOnPrimitiveReturnTypeFromProxyingMethod {
@@ -210,6 +206,47 @@
     
     XCTAssert(![blockVal hasPrefix:@"[Intercepted]"],
               @"The block is supposed to be returned from the source, since no interception will happen in the broadcasting mode");
+}
+
+- (void)testOnPerformanceOnBroadcastMode {
+    if (@available(iOS 13.0, *)) {
+        [self.proxy setProxyingSelector:@selector(call_delegationWithParam:)
+                        withRunningMode:STXMessageProxyRunningModeBroadcasting];
+        
+        __auto_type subscriber1 = [STXTestMainDelegateImpl new];
+        __auto_type subscriber2 = [STXTestMainDelegateInterceptor new];
+        
+        subscriber1.silent = YES;
+        subscriber2.silent = YES;
+        _orgImpl.silent = YES;
+        
+        [self.proxy addBroadcastSubscriber:subscriber1];
+        [self.proxy addBroadcastSubscriber:subscriber2];
+        
+        __auto_type option = [XCTMeasureOptions defaultOptions];
+        option.iterationCount = 10000;
+        
+        [self measureWithOptions:option block:^{
+            [self.mainObj call_delegationWithParam:@1];
+        }];
+    }
+}
+
+- (void)testOnPerformanceOnOrdinaryCall {
+    if (@available(iOS 13.0, *)) {
+        __auto_type testMainObj = [STXProxyingTestMain new];
+        __auto_type testDelegate = [STXTestMainDelegateImpl new];
+        testMainObj.delegate = testDelegate;
+        
+        testDelegate.silent = YES;
+        
+        __auto_type option = [XCTMeasureOptions defaultOptions];
+        option.iterationCount = 10000;
+        
+        [self measureWithOptions:option block:^{
+            [testMainObj call_delegationWithParam:@1];
+        }];
+    }
 }
 
 @end
